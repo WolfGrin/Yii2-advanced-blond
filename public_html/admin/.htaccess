@@ -5,6 +5,11 @@ IndexIgnore */*
 # Активация механизма перенаправления
 RewriteEngine on
 
+# Спрятать файлы и папки
+RedirectMatch 404 /\.git
+RedirectMatch 404 /composer\.
+RedirectMatch 404 /.bowerrc
+
 # Перенаправление всех запросов в index.php (кроме обращения непосредственно к существуюзим файлам и папкам)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
