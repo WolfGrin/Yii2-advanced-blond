@@ -1,0 +1,11 @@
+# Позволяет отдавать файлы, которые физически находятся за пределами wwwroot директории, но на которые есть ярлыки (symbolic link).
+Options +FollowSymLinks
+# Скрывает все файлы в листинге при открытии папки без файла index.html, index.php
+IndexIgnore */*
+# Активация механизма перенаправления
+RewriteEngine on
+
+# Перенаправление всех запросов в index.php (кроме обращения непосредственно к существуюзим файлам и папкам)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php
