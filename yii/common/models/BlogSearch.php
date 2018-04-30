@@ -18,8 +18,8 @@ class BlogSearch extends Blog
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'text', 'url', 'status_id', 'sort'], 'safe'],
+            [['id', 'status_id', 'sort'], 'integer'],
+            [['title', 'text', 'url'], 'safe'],
         ];
     }
 
@@ -44,9 +44,16 @@ class BlogSearch extends Blog
         $query = Blog::find();
 
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -60,13 +67,13 @@ class BlogSearch extends Blog
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'status_id' => $this->status_id,
+            'sort' => $this->sort
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'url', $this->url])
-            ->andFilterWhere(['like', 'status_id', $this->status_id])
-            ->andFilterWhere(['like', 'sort', $this->sort]);
+            ->andFilterWhere(['like', 'url', $this->url]);
 
         return $dataProvider;
     }

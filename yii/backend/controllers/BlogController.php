@@ -44,6 +44,23 @@ class BlogController extends Controller
         ]);
     }
 
+    // добавление новых материалов, по умолчанию 10, можно передать в адресной строке количество "blog/add-some-item?n=3"
+    public function actionAddSomeItems($n = 10)
+    {
+        for($i = 0; $i < $n; $i++)
+        {
+            $model = new Blog();
+            $model->text = 'automatically generated item...';
+            $model->sort = rand(1, 99);
+            $model->status_id = 1;
+            $model->title = "Заголовок ".time()."_$i";
+            $model->url = "url_".time()."_$i";
+            $model->save();
+        }
+
+        return "<p>added $n items...</p>";
+    }
+
     /**
      * Displays a single Blog model.
      * @param integer $id
