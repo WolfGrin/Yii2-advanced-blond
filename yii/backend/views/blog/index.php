@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'text:ntext',
 
             //'url:url',
-            ['attribute' => 'url', 'format' => 'url'], //url, text, raw - html текст с тегами
+            ['attribute' => 'url', 'format' => 'url', 'headerOptions' => ['class' => 'url-title']], //url, text, raw - html текст с тегами
 
             //['attribute' => 'status_id', 'filter' => ['off', 'on'], 'label' => 'link'],
             //['attribute' => 'status_id', 'filter' => ['off', 'on'], 'value' => function(){ return 123; }],
@@ -54,7 +54,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'statusName'
             ],
             'sort',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {check}',
+                'buttons' => [
+//                    'update' => function ($url, $model, $key) {
+//                        return Html::a('Update', $url);
+//                    },
+                    'check' => function ($url, $model, $key) {
+                        return Html::a('<i class="fa fa-check"></i>', $url);
+                    },
+                ],
+                'visibleButtons' => [
+                    'check' => function($model , $key, $index) {
+                        return ($model->status_id == 0)? false : true;
+                    }
+                ],
+            ],
         ],
     ]); ?>
 
