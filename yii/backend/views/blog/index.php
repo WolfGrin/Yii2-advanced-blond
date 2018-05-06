@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
             ],
+            ['attribute' => 'tags', 'value' => 'tagsAsString'],
         ],
     ]); ?>
 

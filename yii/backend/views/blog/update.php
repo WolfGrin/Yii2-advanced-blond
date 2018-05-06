@@ -18,4 +18,20 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
     ]) ?>
 
+    <div class="well">
+        <?php //foreach($model->blogTags as $one): ?>
+            <?= ''//$one->tag->name  ?>
+        <?php //endforeach; ?>
+
+        <?php foreach($model->tags as $one): ?>
+            <?= $one->name  ?><br>
+        <?php endforeach; ?>
+    </div>
+
+    <?php /*
+    <pre><?php print_r($model->tags); // получаем объект через атрибут ?></pre>
+    <pre><?php print_r($model->getTags()->asArray()->all()); // получаем массив через связь ?></pre>
+    <pre><?php print_r(\yii\helpers\ArrayHelper::map($model->getTags()->asArray()->all(), 'id', 'name') ); // получаем массив через связь и нормализуем его ?></pre>
+    */ ?>
+
 </div>
