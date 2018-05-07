@@ -37,8 +37,9 @@ use kartik\select2\Select2;
 
 
     <?php // Normal select with ActiveForm & model ?>
-    <?= $form->field($model, 'tags_array')->widget(Select2::classname(), [
-            'data' =>  \yii\helpers\ArrayHelper::map(\common\models\Tag::find()->all(), 'id', 'name'), // правильней получить данные в модели и передать сюда в $data
+    <?php $test = \yii\helpers\ArrayHelper::map(\common\models\Tag::find()->all(), 'id', 'name'); ?>
+    <?= $form->field($model, 'newtags')->widget(Select2::classname(), [
+            'data' =>  \yii\helpers\ArrayHelper::map(\common\models\Tag::find()->all(), 'name', 'name'), // правильней получить данные в модели и передать сюда в $data
             'language' => 'ru',
             'options' => ['placeholder' => 'Выбрать tag...',  'multiple' => true],
             'pluginOptions' => [
