@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status_id',
 //                'filter' => ['off', 'on'],
-                'filter' => \common\models\Blog::getStatusList(),
+                'filter' => \common\models\Blog::STATUS_LIST,
 
 //                'value' => function($model){
 //                    if($model->status_id == 1)
@@ -54,6 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'statusName'
             ],
             'sort',
+            'date_create',
+            'date_update',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete} {check}',

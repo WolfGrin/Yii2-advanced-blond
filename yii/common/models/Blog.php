@@ -4,6 +4,9 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
+use common\components\bihaviors\StatusBehavior;
 
 /**
  * This is the model class for table "blog".
@@ -14,9 +17,13 @@ use yii\helpers\ArrayHelper;
  * @property string $url
  * @property int $status_id
  * @property int $sort
+ * @property int $user_id
+ * @property string $date_update
+ * @property string $date_create
  */
 class Blog extends \yii\db\ActiveRecord
 {
+    const STATUS_LIST = ['off', 'on'];
     public $tags_array;
 
     /**
@@ -25,6 +32,22 @@ class Blog extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'blog';
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_update',
+                'value' => new Expression('NOW()'),
+            ],
+            'statusBehavior' => [
+                'class' => statusBehavior::className(),
+                'statusList' => self::STATUS_LIST,
+            ],
+        ];
     }
 
     /**
@@ -39,7 +62,7 @@ class Blog extends \yii\db\ActiveRecord
             [['title', 'url'], 'string', 'max' => 150],
             [['status_id'], 'integer', 'max' => 9],
             [['sort'], 'integer', 'max' => 99, 'min' => 1],
-            [['tags_array'], 'safe'],
+            [['tags_array', 'date_update', 'date_create'], 'safe'],
         ];
     }
 
@@ -59,18 +82,9 @@ class Blog extends \yii\db\ActiveRecord
             'tagsAsString' => 'Тэги',
             'author.username' => 'Имя автора',
             'author.email' => 'Почта автора',
+            'date_update' => 'Дата обновления',
+            'date_create' => 'Дата создания',
         ];
-    }
-
-    public static function getStatusList()
-    {
-        return ['off', 'on'];
-    }
-
-    public function getStatusName()
-    {
-        $list = self::getStatusList();
-        return $list[$this->status_id];
     }
 
     public function getAuthor()
@@ -91,6 +105,7 @@ class Blog extends \yii\db\ActiveRecord
 
     public function afterFind()
     {
+        parent::afterFind();
         $this->tags_array = $this->tags;
     }
 
